@@ -1,16 +1,16 @@
-﻿using API_AppPousada_ControleEstoque.Models;
+﻿using API_GerenciamentoGerenciamentoControle_Controle.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_AppPousada_ControleEstoque.Controllers
+namespace API_GerenciamentoGerenciamentoControle_Controle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class Categoria : ControllerBase
     {
-        private readonly PousadaTesteContext _dbContext;
+        private readonly GerenciamentoControleTesteContext _dbContext;
 
-        public Categoria(PousadaTesteContext dbContext)
+        public Categoria(GerenciamentoControleTesteContext dbContext)
         {
             _dbContext = dbContext;
         }

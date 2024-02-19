@@ -1,17 +1,17 @@
-﻿using API_AppPousada_ControleEstoque.Models;
-using API_AppPousada_ControleEstoque.Suporte;
+﻿using API_GerenciamentoGerenciamentoControle_Controle.Models;
+using API_GerenciamentoGerenciamentoControle_Controle.Suporte;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_AppPousada_ControleEstoque.Controllers
+namespace API_GerenciamentoGerenciamentoControle_Controle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class Estoque : ControllerBase
     {
-        private readonly PousadaTesteContext _dbContext;
+        private readonly GerenciamentoControleTesteContext _dbContext;
 
-        public Estoque(PousadaTesteContext dbContext)
+        public Estoque(GerenciamentoControleTesteContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -56,7 +56,7 @@ namespace API_AppPousada_ControleEstoque.Controllers
             {
                 var lista = await _dbContext.TblContaEstoques
                            .Where(x => x.Finalizado == null && x.Excluir == null)
-                           .OrderBy(z =>z.DataAbre)
+                           .OrderBy(z => z.DataAbre)
                            .ToListAsync();
 
                 return lista;
@@ -86,7 +86,6 @@ namespace API_AppPousada_ControleEstoque.Controllers
                 return null;
             }
         }
-
 
         [HttpGet]
         [Route("lista-contagem-fast-id")]
@@ -168,6 +167,31 @@ namespace API_AppPousada_ControleEstoque.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("lista-id-pre-iten")]
+        public async Task<int> ListaIdPreItens(int iditem, int idlista)
+        {
+            try
+            {
+                var contaEstoquePres = await _dbContext.TblContaEstoquePres
+                    .FirstOrDefaultAsync(x => x.Idlista == idlista && x.Iditem == iditem);
+
+                if (contaEstoquePres != null)
+                {
+                    return contaEstoquePres.Id;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+
         [HttpPost]
         [Route("criar-contagem")]
         public async Task<ActionResult> Criar(TblContaEstoque tblConta)
@@ -184,6 +208,65 @@ namespace API_AppPousada_ControleEstoque.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost]
+        [Route("atualiza-contagem")]
+        public async Task<ActionResult> AtualizaFull(TblContaEstoque tblConta)
+        {
+            try
+            {
+                var existingItem = await _dbContext.TblContaEstoques.FirstOrDefaultAsync(x => x.IdLista == tblConta.IdLista);
+
+                if (existingItem != null)
+                {
+                    existingItem.IdCategoria = tblConta.IdCategoria;
+                    existingItem.IdGrupo = tblConta.IdGrupo;
+                    existingItem.DataFecha = tblConta.DataFecha;
+                    existingItem.UserFecha = tblConta.UserFecha;
+                    existingItem.IdLocal = tblConta.IdLocal;
+                    existingItem.Finalizado = tblConta.Finalizado;
+                    existingItem.Idcategorialista = tblConta.Idcategorialista;
+                }
+
+               await _dbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("atualiza-pre-contagem-finaliza")]
+        public async Task<ActionResult> AtualizaItensPreFinaliza(TblContaEstoquePre tblConta)
+        {
+            try
+            {
+                // Encontra todos os itens com o mesmo ID
+                var itemsToUpdate = await _dbContext.TblContaEstoquePres
+                    .Where(item => item.Idlista == tblConta.Idlista)
+                    .ToListAsync();
+
+                // Atualiza cada item encontrado
+                foreach (var item in itemsToUpdate)
+                {
+                    item.Finaliza = "S";
+                }
+
+                // Salva as alterações no banco de dados
+                await _dbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                // Em caso de erro, retorna um BadRequest
+                return BadRequest();
+            }
+        }
+
 
         [HttpPost]
         [Route("criar-contagem-fast")]
@@ -204,6 +287,78 @@ namespace API_AppPousada_ControleEstoque.Controllers
         }
 
         [HttpPost]
+        [Route("att-itens-cont-pre")]
+        public async Task<ActionResult> AtualizaItensContPre(TblContaEstoquePre tblContaFast)
+        {
+            try
+            {
+                var existingItem = await _dbContext.TblContaEstoquePres.FindAsync(tblContaFast.Id);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantidade = tblContaFast.Quantidade;
+
+                    _dbContext.Entry(existingItem).State = EntityState.Modified;
+                }
+
+                await _dbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpPost]
+        [Route("adiciona-itens-cont-pre")]
+        public async Task<ActionResult> AdicionaItensContPre(TblContaEstoquePre tblContaFast)
+        {
+            try
+            {
+                var existingItem = await _dbContext.TblContaEstoquePres.FindAsync(tblContaFast.Id);
+
+                if (existingItem == null)
+                {
+                    _dbContext.TblContaEstoquePres.AddRange(tblContaFast);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("deletar-item-fast")]
+        public async Task<ActionResult> DeletarFast(int idLista, string sku)
+        {
+            try
+            {
+                var linhaParaDeletar = await _dbContext.TblContaEstoquePres
+                    .FirstOrDefaultAsync(x => x.Id == idLista && x.Sku == sku);
+
+                if (linhaParaDeletar == null)
+                    return NotFound(); // Se a linha não existir, retorna 404
+
+                _dbContext.TblContaEstoquePres.Remove(linhaParaDeletar);
+                await _dbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
         [Route("att-historico")]
         public async Task<ActionResult> AtualizaHistorico(List<EstoqueAtual> tbl)
         {
@@ -216,6 +371,7 @@ namespace API_AppPousada_ControleEstoque.Controllers
                     for (int i = 0; i < pre_estoque.Count; i++)
                     {
                         pre_estoque[i].Estoqueatual = tbl[i].Atual;
+                        pre_estoque[i].Finaliza = "S";
                     }
 
                     await _dbContext.SaveChangesAsync();
@@ -284,7 +440,7 @@ namespace API_AppPousada_ControleEstoque.Controllers
                     return Ok("Contagem deletada com sucesso");
                 }
 
-                    return BadRequest();
+                return BadRequest();
             }
             catch (Exception ex)
             {

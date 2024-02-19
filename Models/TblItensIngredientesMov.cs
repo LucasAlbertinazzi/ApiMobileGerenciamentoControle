@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace API_AppPousada_ControleEstoque.Models;
+namespace API_GerenciamentoGerenciamentoControle_Controle.Models;
 
 /// <summary>
 /// movimentação de estoque dos ingredientes utilizados na cozinha, esta tabela está correlacionada com a tbl_itens_mov, uma vez que um sku teve movimentação, todos os seus ingredientes também devem ter movimentação.

@@ -1,4 +1,4 @@
-﻿namespace API_AppPousada_ControleEstoque.Suporte
+﻿namespace API_GerenciamentoGerenciamentoControle_Controle.Suporte
 {
     public class EstoqueAtual
     {

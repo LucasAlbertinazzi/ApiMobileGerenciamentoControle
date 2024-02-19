@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace API_AppPousada_ControleEstoque.Models;
+namespace API_GerenciamentoGerenciamentoControle_Controle.Models;
 
-public partial class TblSenhasPousadaTipo
+public partial class TblSenhasGerenciamentoControleTipo
 {
     public int Id { get; set; }
 

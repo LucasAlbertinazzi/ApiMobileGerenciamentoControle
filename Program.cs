@@ -1,4 +1,4 @@
-using API_AppPousada_ControleEstoque.Models;
+using API_GerenciamentoGerenciamentoControle_Controle.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Adicionar o DbContext ao contêiner
-builder.Services.AddDbContext<PousadaTesteContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<GerenciamentoControleTesteContext>(options => options.UseNpgsql(connectionString));
 
 var app = builder.Build();
 

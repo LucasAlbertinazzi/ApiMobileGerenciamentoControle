@@ -1,15 +1,15 @@
-﻿using API_AppPousada_ControleEstoque.Models;
+﻿using API_GerenciamentoGerenciamentoControle_Controle.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_AppPousada_ControleEstoque.Controllers
+namespace API_GerenciamentoGerenciamentoControle_Controle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class Local
     {
-        private readonly PousadaTesteContext _dbContext;
-        public Local(PousadaTesteContext dbContext)
+        private readonly GerenciamentoControleTesteContext _dbContext;
+        public Local(GerenciamentoControleTesteContext dbContext)
         {
             _dbContext = dbContext;
         }

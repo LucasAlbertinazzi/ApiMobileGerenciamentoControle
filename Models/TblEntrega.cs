@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace API_AppPousada_ControleEstoque.Models;
+namespace API_GerenciamentoGerenciamentoControle_Controle.Models;
 
 /// <summary>
 /// dados de um endereço de entrega. Utilizado para entregas próprias, feitas por nós, ou recebimento mercadorias

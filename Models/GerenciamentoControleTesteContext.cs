@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace API_AppPousada_ControleEstoque.Models;
+namespace API_GerenciamentoGerenciamentoControle_Controle.Models;
 
-public partial class PousadaTesteContext : DbContext
+public partial class GerenciamentoControleTesteContext : DbContext
 {
-    public PousadaTesteContext()
+    public GerenciamentoControleTesteContext()
     {
     }
 
-    public PousadaTesteContext(DbContextOptions<PousadaTesteContext> options)
+    public GerenciamentoControleTesteContext(DbContextOptions<GerenciamentoControleTesteContext> options)
         : base(options)
     {
     }
@@ -23,11 +23,11 @@ public partial class PousadaTesteContext : DbContext
 
     public virtual DbSet<ErrorLogsController> ErrorLogsControllers { get; set; }
 
-    public virtual DbSet<TblAppPousadaPeNaTerraLog> TblAppPousadaPeNaTerraLogs { get; set; }
+    public virtual DbSet<TblAppGerenciamentoControleLog> TblAppGerenciamentoControleLogs { get; set; }
 
-    public virtual DbSet<TblAppPousadaPeNaTerraMenuPrincipal> TblAppPousadaPeNaTerraMenuPrincipals { get; set; }
+    public virtual DbSet<TblAppGerenciamentoControleMenuPrincipal> TblAppGerenciamentoControleMenuPrincipals { get; set; }
 
-    public virtual DbSet<TblAppPousadaPeNaTerraVersao> TblAppPousadaPeNaTerraVersaos { get; set; }
+    public virtual DbSet<TblAppGerenciamentoControleVersao> TblAppGerenciamentoControleVersaos { get; set; }
 
     public virtual DbSet<TblAutenticacaoEmailLog> TblAutenticacaoEmailLogs { get; set; }
 
@@ -181,7 +181,7 @@ public partial class PousadaTesteContext : DbContext
 
     public virtual DbSet<TblPesquisaHospede> TblPesquisaHospedes { get; set; }
 
-    public virtual DbSet<TblPousada> TblPousadas { get; set; }
+    public virtual DbSet<TblGerenciamentoControle> TblGerenciamentoControles { get; set; }
 
     public virtual DbSet<TblRecebimento> TblRecebimentos { get; set; }
 
@@ -205,9 +205,9 @@ public partial class PousadaTesteContext : DbContext
 
     public virtual DbSet<TblReservasTiposSub> TblReservasTiposSubs { get; set; }
 
-    public virtual DbSet<TblSenhasPousadaTipo> TblSenhasPousadaTipos { get; set; }
+    public virtual DbSet<TblSenhasGerenciamentoControleTipo> TblSenhasGerenciamentoControleTipos { get; set; }
 
-    public virtual DbSet<TblSenhasPousadum> TblSenhasPousada { get; set; }
+    public virtual DbSet<TblSenhasPousadum> TblSenhasGerenciamentoControle { get; set; }
 
     public virtual DbSet<TblSessoesUsuario> TblSessoesUsuarios { get; set; }
 
@@ -442,11 +442,11 @@ public partial class PousadaTesteContext : DbContext
                 .HasColumnName("message");
         });
 
-        modelBuilder.Entity<TblAppPousadaPeNaTerraLog>(entity =>
+        modelBuilder.Entity<TblAppGerenciamentoControleLog>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tbl_app_pousada_pe_na_terra_log_pkey");
+            entity.HasKey(e => e.Id).HasName("tbl_app_GerenciamentoControle_pe_na_terra_log_pkey");
 
-            entity.ToTable("tbl_app_pousada_pe_na_terra_log");
+            entity.ToTable("tbl_app_GerenciamentoControle_pe_na_terra_log");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Data)
@@ -470,11 +470,11 @@ public partial class PousadaTesteContext : DbContext
                 .HasColumnName("versao");
         });
 
-        modelBuilder.Entity<TblAppPousadaPeNaTerraMenuPrincipal>(entity =>
+        modelBuilder.Entity<TblAppGerenciamentoControleMenuPrincipal>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tbl_app_pousada_pe_na_terra_menu_principal_pkey");
+            entity.HasKey(e => e.Id).HasName("tbl_app_GerenciamentoControle_pe_na_terra_menu_principal_pkey");
 
-            entity.ToTable("tbl_app_pousada_pe_na_terra_menu_principal");
+            entity.ToTable("tbl_app_GerenciamentoControle_pe_na_terra_menu_principal");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BtnAtivo)
@@ -491,11 +491,11 @@ public partial class PousadaTesteContext : DbContext
             entity.Property(e => e.TextoBtn).HasColumnName("texto_btn");
         });
 
-        modelBuilder.Entity<TblAppPousadaPeNaTerraVersao>(entity =>
+        modelBuilder.Entity<TblAppGerenciamentoControleVersao>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tbl_app_pousada_pe_na_terra_versao_pkey");
+            entity.HasKey(e => e.Id).HasName("tbl_app_GerenciamentoControle_pe_na_terra_versao_pkey");
 
-            entity.ToTable("tbl_app_pousada_pe_na_terra_versao");
+            entity.ToTable("tbl_app_GerenciamentoControle_pe_na_terra_versao");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Data)
@@ -1879,7 +1879,7 @@ public partial class PousadaTesteContext : DbContext
                 .HasMaxLength(25)
                 .HasColumnName("local");
             entity.Property(e => e.PontoVenda).HasColumnName("ponto_venda");
-            entity.Property(e => e.UsoPousada).HasColumnName("uso_pousada");
+            entity.Property(e => e.UsoGerenciamentoControle).HasColumnName("uso_GerenciamentoControle");
         });
 
         modelBuilder.Entity<TblItensMov>(entity =>
@@ -2884,7 +2884,7 @@ public partial class PousadaTesteContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("como_nos_conheceu");
             entity.Property(e => e.ConexaoDeInternet).HasColumnName("conexao_de_internet");
-            entity.Property(e => e.ConservacaoDaPousada).HasColumnName("conservacao_da_pousada");
+            entity.Property(e => e.ConservacaoDaGerenciamentoControle).HasColumnName("conservacao_da_GerenciamentoControle");
             entity.Property(e => e.Data).HasColumnName("data");
             entity.Property(e => e.GostariaDeVer)
                 .HasMaxLength(300)
@@ -2896,19 +2896,19 @@ public partial class PousadaTesteContext : DbContext
             entity.Property(e => e.Loginuser)
                 .HasColumnType("character varying")
                 .HasColumnName("loginuser");
-            entity.Property(e => e.ProcuraNaPousada)
+            entity.Property(e => e.ProcuraNaGerenciamentoControle)
                 .HasColumnType("character varying")
-                .HasColumnName("procura_na_pousada");
+                .HasColumnName("procura_na_GerenciamentoControle");
             entity.Property(e => e.Refeicao).HasColumnName("refeicao");
         });
 
-        modelBuilder.Entity<TblPousada>(entity =>
+        modelBuilder.Entity<TblGerenciamentoControle>(entity =>
         {
-            entity.HasKey(e => e.IdPousada).HasName("tbl_pousadas_pkey");
+            entity.HasKey(e => e.IdGerenciamentoControle).HasName("tbl_GerenciamentoControles_pkey");
 
-            entity.ToTable("tbl_pousadas", tb => tb.HasComment("dados das pousadas"));
+            entity.ToTable("tbl_GerenciamentoControles", tb => tb.HasComment("dados das GerenciamentoControles"));
 
-            entity.Property(e => e.IdPousada).HasColumnName("id_pousada");
+            entity.Property(e => e.IdGerenciamentoControle).HasColumnName("id_GerenciamentoControle");
             entity.Property(e => e.Bairro)
                 .HasMaxLength(50)
                 .HasColumnName("bairro");
@@ -3241,11 +3241,11 @@ public partial class PousadaTesteContext : DbContext
                 .HasColumnName("tipo");
         });
 
-        modelBuilder.Entity<TblSenhasPousadaTipo>(entity =>
+        modelBuilder.Entity<TblSenhasGerenciamentoControleTipo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tbl_senhas_pousada_tipos_pkey");
+            entity.HasKey(e => e.Id).HasName("tbl_senhas_GerenciamentoControle_tipos_pkey");
 
-            entity.ToTable("tbl_senhas_pousada_tipos");
+            entity.ToTable("tbl_senhas_GerenciamentoControle_tipos");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Tipos)
@@ -3255,9 +3255,9 @@ public partial class PousadaTesteContext : DbContext
 
         modelBuilder.Entity<TblSenhasPousadum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("tbl_senhas_pousada_pkey");
+            entity.HasKey(e => e.Id).HasName("tbl_senhas_GerenciamentoControle_pkey");
 
-            entity.ToTable("tbl_senhas_pousada");
+            entity.ToTable("tbl_senhas_GerenciamentoControle");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Datacad)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace API_AppPousada_ControleEstoque.Models;
+namespace API_GerenciamentoGerenciamentoControle_Controle.Models;
 
 /// <summary>
 /// lista os tipos de movimento de estoque, utilizados na classe Itens.cs em sua movimentação, inclusão ou baixa

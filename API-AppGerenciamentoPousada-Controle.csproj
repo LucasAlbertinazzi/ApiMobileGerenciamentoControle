@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>API_AppPousada_ControleEstoque</RootNamespace>
+    <RootNamespace>API_GerenciamentoGerenciamentoControle_Controle</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
